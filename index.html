@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>Graph Visualisation</title>
+	<link rel="icon" type="image/png" href="./favicon.png">
 	<link rel="stylesheet" href="./style.css">
 </head>
 
@@ -14,7 +15,7 @@
 
 		<label>File type
 			<select id="fileType">
-				<option value="auto" selected>Automatic</option>
+				<option value="auto" selected>Automatic detection</option>
 				<option value="adj">Zero based adjacency (.adj)</option>
 				<option value="adj1">One based adjacency (.adj)</option>
 				<option value="g6">Graph6 (.g6)</option>
@@ -133,7 +134,7 @@
 				if (idx !== -1) {
 					rest = raw.slice(idx + 1);
 				}
-
+				rest = rest.trim();
 				if (!rest) return [];
 
 				// Replace commas with spaces, fold multiple spaces
