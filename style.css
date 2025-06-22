@@ -14,6 +14,7 @@ body {
     font-family: system-ui, sans-serif;
     background: #ffffff;
     color: #1a1a1a;
+    font-size: 14.5px;
 }
 
 /* Graph Area */
@@ -57,15 +58,6 @@ h2 {
     font-size: 18px;
     font-weight: 600;
     color: #222;
-}
-
-label,
-p,
-input,
-button,
-select,
-.slider {
-    font-size: 14px;
 }
 
 select,
@@ -127,6 +119,7 @@ button {
     background-repeat: repeat;
     color: white;
     font-weight: 600;
+    font-size: 15px;
     cursor: pointer;
     transition: background 0.2s ease-in-out, box-shadow 0.2s ease, border 0.2s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -204,4 +197,87 @@ hr {
     border: 0;
     border-top: 1px solid #ddd;
     margin: 20px 0;
+}
+
+/* Code */
+.code {
+    font-size: 12px;
+    font-family: monospace;
+    background-color: #ededed;
+    padding: 5px;
+    border-radius: 2px;
+}
+
+/* Help button */
+.information {
+    text-decoration: none;
+    background-color: #ededed;
+    color: black;
+    font-size: 16px;
+    border-radius: 100%;
+    padding: 2px 6px;
+    cursor: help;
+}
+
+.information:hover {
+    color: black;
+}
+
+.information:visited {
+    color: black;
+}
+
+.information::after {
+    content: "ℹ";
+}
+
+/* Logo */
+#logo-container {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    height: 50px;
+    padding: 3px;
+
+    border: 1px solid #ccc;
+    border-radius: 27px;
+    background-color: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    width: fit-content;
+}
+
+#logo-container a {
+    height: 100%;
+}
+
+.logo {
+    height: 100%;
+    aspect-ratio: 1;
+    padding: 1px 0 2px 3px;
+}
+
+.logo-text {
+    max-width: 0;
+    overflow: hidden;
+    font-family: system-ui, sans-serif;
+
+    opacity: 0;
+    transition:
+        max-width 0.4s ease,
+        opacity 0.3s ease 0.1s,
+        margin-left 0.3s ease;
+
+    margin-left: 0;
+}
+
+#logo-container:hover .logo-text {
+    max-width: 300px;
+    /* set wide enough for the full text */
+    opacity: 1;
+    margin-left: 5px;
 }

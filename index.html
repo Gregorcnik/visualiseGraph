@@ -10,10 +10,14 @@
 
 <body>
 	<canvas id="graph"></canvas>
+	<div id="logo-container">
+		<a href="#"><img src="favicon.png" alt="logo" class="logo"></a>
+		<pre class="logo-text">Developed by <strong>Gregor Potočnik</strong>     </pre>
+	</div>
 	<div id="menu">
 		<h2>Upload</h2>
 
-		<label>File type
+		<label>File type <a href="#help-formats" class="information"></a>
 			<select id="fileType">
 				<option value="auto" selected>Automatic detection</option>
 				<option value="adj">Zero based adjacency (.adj)</option>
@@ -28,10 +32,10 @@
 		</label>
 
 		<button id="pasteBtn">Paste graph from clipboard</button>
-		<hr />
+		<hr>
 
 		<button id="saveBtn">Save PNG</button>
-		<hr />
+		<hr>
 
 		<h2>Commands</h2>
 		<div class="button-row">
@@ -39,21 +43,71 @@
 			<button id="shakeBig">Shake a Lot</button>
 		</div>
 		<button id="toggleNum">Toggle Numbers</button>
-		<hr />
+		<hr>
 
-		<h2>Simulation</h2>
+		<h2>Simulation <a href="#help-parameters" class="information"></a></h2>
 		<div class="slider" name="Length"><input id="len" type="range" min="50" max="200" step="1"></div>
 		<div class="slider" name="Spring"><input id="spring" type="range" min="0.1" max="1" step="0.01"></div>
 		<div class="slider" name="Electric"><input id="electric" type="range" min="10000" max="1000000" step="1000">
 		</div>
 		<div class="slider" name="Resistance coefficient"><input id="res" type="range" min="0.2" max="1" step="0.01">
 		</div>
-		<hr />
+		<hr>
 
 		<h2>Display</h2>
 		<div class="slider" name="Radius"><input id="radius" type="range" min="1" max="40" step="1"></div>
 		<div class="slider" name="Thickness"><input id="thick" type="range" min="1" max="20" step="1"></div>
+		<hr>
+
+		<h2 id="help-formats">Graph Formats</h2>
+
+		<p><strong>Sparse6:</strong> A compact format for sparse graphs, used by <em>nauty</em> utilities. It is based
+			on the adjacency list and always starts with a colon (<code>:</code>) to distinguish it from graph6.
+			<a href="https://users.cecs.anu.edu.au/~bdm/data/formats.txt">More information.</a>
+		</p>
+		<p>Example (3d cube):
+			<span class="code">:GaGsQQRQbR</span>
+		</p>
+
+		<p><strong>Graph6:</strong> A compact format for dense graphs, also used by <em>nauty</em>. It is based on the
+			adjacency matrix.
+			<a href="https://users.cecs.anu.edu.au/~bdm/data/formats.txt">More information.</a>
+		</p>
+		<p>Example (3d cube):
+			<span class="code">Gs@ipo</span>
+		</p>
+
+		<p><strong>Adjacency List:</strong> Lists the neighbours of each vertex. The first line contains the neighbours
+			of vertex 1, the second line for vertex 2, and so on. Neighbours can be separated by spaces, commas, or
+			both. Lines may optionally begin with <code>vertex number:</code> for compatibility. Graphs can be written
+			using 0-based or 1-based vertex numbering. The program will automatically detect the numbering by checking
+			for the presence of zeroes in the file.</p>
+
+		<p>Example (3d cube): <br>
+		<div class="code" style="padding: 10px;">
+			1: 8, 7, 4 <br>
+			2: 8, 6, 7 <br>
+			3: 8, 6, 4 <br>
+			4: 3, 1, 5 <br>
+			5: 4, 7, 6 <br>
+			6: 3, 5, 2 <br>
+			7: 1, 2, 5 <br>
+			8: 1, 2, 3 <br>
+		</div>
+		</p>
+		<hr>
+
+		<h2 id="help-parameters">Simulation Parameters</h2>
+		<p><strong>Length:</strong> Target edge length. Mainly affects the ratio between spring and electric forces.</p>
+		<p><strong>Spring:</strong> Edge spring strength. Higher values give stronger edge influence.</p>
+		<p><strong>Electric:</strong> Repulsion between vertices.</p>
+		<p><strong>Resistance coefficient:</strong> Damps movement. Higher values reduce motion.</p>
+		<p>Sliders don't support all possible values. You can set parameters manually via the browser's developer
+			console, e.g. <span class="code">settings.resistanceCoefficient = 1.1;</span> (replace with any parameter
+			and value).</p>
+
 	</div>
+
 	<script>
 		/* --- canvas setup --- */
 		const canvas = document.getElementById('graph');
@@ -72,7 +126,7 @@
 			length: 100,
 			spring: 0.3,
 			electric: 1e5,
-			resistance: 0.8,
+			resistanceCoefficient: 0.8,
 			vertexRadius: 10,
 			edgeThickness: 2,
 			numbers: false
@@ -251,7 +305,7 @@
 
 		function simulate() {
 			if (dragging !== null) { vertices[dragging].vx = vertices[dragging].vy = 0; }
-			const len = settings.length; const k = settings.spring; const q = settings.electric; const r = settings.resistance;
+			const len = settings.length; const k = settings.spring; const q = settings.electric; const r = settings.resistanceCoefficient;
 			for (let i = 0; i < graph.length; i++) {
 				for (let j = i + 1; j < graph.length; j++) {
 					const d = dist(vertices[i], vertices[j]) || 1;
